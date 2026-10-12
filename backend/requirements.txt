@@ -1,0 +1,9 @@
+# Needs Python 3.10+. Pinned to the exact versions the project was tested with (all pure Python,
+# so they install the same way on Windows, macOS and Linux). pydantic is left as a range because
+# it ships compiled wheels and a fixed old version may not exist for a newer Python.
+fastapi==0.142.2
+starlette==1.7.0
+uvicorn==0.54.0
+pydantic>=2.7,<3
+httpx==0.28.1      # only used by the tests (FastAPI TestClient)
+pytest==9.1.1      # only used by the tests

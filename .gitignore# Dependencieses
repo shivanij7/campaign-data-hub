@@ -1,0 +1,54 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+backend/*.db
+node_modules/
+.DS_Store
+# NOTE: frontend/dist/ is deliberately committed, so the app runs with Python alone (no Node needed).
+node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+.next/
+
+# Logs
+*.log
+
+# Operating system files
+.DS_Store
+
+# Local deployment configuration
+.vercel
+
+# Rebuild it after editing the UI:  cd frontend && npm install && npm run build
+
+
+# Dependencies
+node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+.next/
+
+# Logs
+*.log
+
+# Operating system files
+.DS_Store
+
+# Local deployment configuration
+.vercel
+

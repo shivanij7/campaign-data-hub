@@ -1,0 +1,43 @@
+flowchart LR
+  subgraph FILES["Inputs (data/)"]
+    direction TB
+    M["meta_ads_*.csv"]
+    G["google_ads_*.csv"]
+    L["linkedin_ads_*.json"]
+    FX["exchange_rates.json"]
+  end
+  CLI["CLI<br/>python -m app.cli ingest"]
+
+  subgraph PIPE["Ingestion pipeline (backend/app)"]
+    direction LR
+    DISC["1 deliveries.py<br/>platform + week<br/>from filename"]
+    PARSE["2 parsers/<br/>one per platform<br/>bad rows set aside"]
+    ANA["3 analysis.py<br/>dup files, names,<br/>unit scale, dup rows,<br/>missing deliveries"]
+    CHK["4 quality/<br/>12 pluggable checks<br/>health = worst status"]
+    STORE["5 store.py<br/>one transaction<br/>per delivery"]
+    DISC --> PARSE --> ANA --> CHK --> STORE
+  end
+
+  DB[("SQLite<br/>deliveries<br/>metrics<br/>quarantined_rows<br/>quality_checks")]
+
+  subgraph API["FastAPI /api/v1"]
+    direction TB
+    EP1["GET /metrics<br/>GET /metrics/summary"]
+    EP2["GET /deliveries<br/>GET /deliveries/id"]
+    EP3["POST /ingestions"]
+  end
+
+  UI["React + TypeScript<br/>Campaign metrics view<br/>Data health view"]
+
+  M --> DISC
+  G --> DISC
+  L --> DISC
+  FX -.-> PARSE
+  CLI --> DISC
+  STORE --> DB
+  DB --> EP1
+  DB --> EP2
+  EP1 --> UI
+  EP2 --> UI
+  UI -- "Run ingestion" --> EP3
+  EP3 -- "triggers" --> DISC

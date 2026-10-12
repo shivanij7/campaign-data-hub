@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+backend/*.db
+node_modules/
+.DS_Store
+# NOTE: frontend/dist/ is deliberately committed, so the app runs with Python alone (no Node needed).
+# Rebuild it after editing the UI:  cd frontend && npm install && npm run build
